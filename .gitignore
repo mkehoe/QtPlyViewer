@@ -14,7 +14,7 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
+
 
 # Fortran module files
 *.mod
@@ -24,9 +24,16 @@
 *.lai
 *.la
 *.a
-*.lib
+
 
 # Executables
 *.exe
 *.out
 *.app
+*.suo
+/.vs
+/GeneratedFiles
+/x64/Debug
+/x64/Release
+/Viewer3dTest.vcxproj.user
+/Viewer3dTest.vcxproj.filters
