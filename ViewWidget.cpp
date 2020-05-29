@@ -41,13 +41,13 @@ void ThreeDeeViewerWidget::LoadFile(QString file)
   ColorMeshRenderer* mesh = new ColorMeshRenderer(file, m_rootEntity);
 
   m_view->defaultFrameGraph()->setClearColor(QColor(QRgb(0x000000)));
-
+  
   // Camera
   auto camera = m_view->camera();
 
   mesh->ViewCenter(&m_viewCenter);
 
-  camera->lens()->setPerspectiveProjection(45.0f, m_view->width()/m_view->height(), 0.01f, 100000.0f);
+  camera->lens()->setPerspectiveProjection(45.0f, m_view->width()/m_view->height(), 0.01f, 5000.0f);
   camera->setPosition(m_camStartPos);
   camera->setUpVector(QVector3D(0.f, 1.f, 0.f));
   camera->setViewCenter(m_viewCenter);
@@ -65,19 +65,19 @@ void ThreeDeeViewerWidget::LoadFile(QString file)
 
   auto rsettings = m_view->renderSettings();
   rsettings->pickingSettings()->setFaceOrientationPickingMode(Qt3DRender::QPickingSettings::FrontAndBackFace);
-  rsettings->pickingSettings()->setPickMethod(Qt3DRender::QPickingSettings::PointPicking);
+  rsettings->pickingSettings()->setPickMethod(Qt3DRender::QPickingSettings::TrianglePicking);
   rsettings->pickingSettings()->setPickResultMode(Qt3DRender::QPickingSettings::NearestPick);
   rsettings->pickingSettings()->setWorldSpaceTolerance(0.5f);
 
   auto picker = new Qt3DRender::QObjectPicker(m_rootEntity);
-
+  
   m_plyEntity = new Qt3DCore::QEntity(m_rootEntity);
   m_plyEntity->addComponent(mesh);
   m_plyEntity->addComponent(m_material);
   m_plyEntity->addComponent(picker);
 
   connect(picker, &Qt3DRender::QObjectPicker::pressed, this, &ThreeDeeViewerWidget::picker_Clicked);
-
+  
   Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(m_rootEntity);
   camController->setLinearSpeed( 360.0f );
   camController->setLookSpeed( 360.0f );
